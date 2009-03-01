@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>test 03</title>
+  </head>
+  <body>
+    <div id="forms">
+      <form action="cgi.rb" method="get" id="get-form">
+        <input type="file" name="f" />
+        <input type="text" name="t" />
+        <input type="submit" name="s" value="go" />
+      </form>
+      <form action="cgi.rb" method="post" id="post-form">
+        <input type="text" name="t">
+        <input type="password" name="p">
+        
+        <input type="submit" name="s" value="go" />
+      </form>
+      <form action="cgi.rb" method="post" enctype="multipart/form-data" id="upload-form">
+        <input type="file" name="f" />
+        <input type="submit" name="s" value="go" />
+      </form>
+    </div>
+  </body>
+</html>
+

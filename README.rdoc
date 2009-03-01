@@ -1,0 +1,42 @@
+= Chainsaw
+
+* http://github.com/ucnv/chainsaw/tree/master
+
+== Description
+
+A Ruby library for spidering web resources.
+
+== Features/Problems
+
+
+== Synopsis
+
+  Chainsaw.launch('http://example.com/').open { |cs|
+    cs.doc.css('#navi a')[2]
+  }.open { |cs|
+    form = cs.doc.xpath('//form')[0]
+    input = form.xpath('.//input[@type="text"]')[0]
+    input.set_attribute('value', 'blurblur')
+    form
+  }.submit { |cs|
+    puts cs.res.status
+    cs.doc.search('.//a') do |link| 
+      puts link.content
+    end
+  }
+
+== Requirements
+
+* nokogiri
+* httpclient
+
+== Installation
+
+* gem install ucnv-chainsaw
+
+== Copyright
+
+Author::    ucnv <ucnvvv at gmail.com>
+Copyright:: Copyright (c) 2009 ucnv
+License::   MIT
+
