@@ -17,7 +17,7 @@ A Ruby library for spidering web resources.
     form = cs.doc.xpath('//form')[0]
     input = form.xpath('.//input[@type="text"]')[0]
     input.set_attribute('value', 'blurblur')
-    form
+    cs.set_next form
   }.submit { |cs|
     puts cs.res.status
     cs.doc.search('.//a') do |link| 
