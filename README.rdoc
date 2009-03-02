@@ -12,7 +12,7 @@ A Ruby library for spidering web resources.
 == Synopsis
 
   Chainsaw.launch('http://example.com/').open { |cs|
-    cs.doc.css('#navi a')[2]
+    cs.set_next cs.doc.css('#navi a')[2]
   }.open { |cs|
     form = cs.doc.xpath('//form')[0]
     input = form.xpath('.//input[@type="text"]')[0]
@@ -32,6 +32,7 @@ A Ruby library for spidering web resources.
 
 == Installation
 
+* gem source -a http://gems.github.com
 * gem install ucnv-chainsaw
 
 == Copyright
