@@ -138,10 +138,16 @@ module Chainsaw
     
     def document
       return @document unless @document.nil?
-      return nil if res.content.nil?
-      return nil unless is_xml_parsable?(res.contenttype)
-      enc = @encoding || Encoding.guess(res.content)
-      @document = Nokogiri.parse(res.content, nil, enc)
+      begin
+        raise 'Require HTML or XML.' unless 
+          is_xml_parsable?(res.contenttype)
+        enc = @encoding || Encoding.guess(res.content)
+        @document = Nokogiri.parse(res.content, nil, enc)
+        raise "Something wrong to parse this: #{res.content.to_s}" if 
+          @document.root.nil?
+      rescue
+        raise Chainsaw::ParseError
+      end
       
       b = @document.xpath('//base')
       base = b.empty? ? '' : b[0]['href']
@@ -264,8 +270,6 @@ module Chainsaw
       @history.unshift(data)
       @history.slice! @max_history_count, @history.size - @max_history_count
     end
-    
-    
     
   end
 end

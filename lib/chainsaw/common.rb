@@ -83,5 +83,9 @@ module Chainsaw
     include Chainsaw::ErrorWrapper
   end
   
+  class ParseError < StandardError
+    include Chainsaw::ErrorWrapper
+  end
+  
 end
 
