@@ -5,7 +5,7 @@ module Chainsaw
   class Browser
     include Chainsaw::Util
     
-    DEFAULT_USER_AGENT = '' # TODO: set value
+    DEFAULT_USER_AGENT = "Chainsaw/#{VERSION}"
     
     attr_accessor :user_agent, :ignore_redirect, :hide_referer, :max_history_count, :encoding  # configurables
     attr_accessor :request_headers, :url_base, :results
@@ -168,10 +168,17 @@ module Chainsaw
   private
     
     def process_chain(&block)
-      if block.arity == 0
-        results.push yield
-      else
+      unless block.arity == -1
         results.push yield(self)
+      else
+        instance_exec(eval('self', block)) do |caller_self|
+          mm = lambda do |name, *args|
+            caller_self.__send__(name, *args)
+          end
+          self.class.__send__(:define_method, :method_missing, &mm)
+        end
+        results.push instance_eval &block
+        self.class.__send__(:undef_method, :method_missing)
       end
     end
     
@@ -184,6 +191,8 @@ module Chainsaw
       @request_count += 1
       r = begin
         @engine.send(call, uri, query, @request_headers)
+      rescue HTTPClient::BadResponseError => e
+        e.res
       rescue
         raise(
           Chainsaw::RequestError, 

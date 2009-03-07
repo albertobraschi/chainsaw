@@ -174,6 +174,7 @@ class TestBrowser < Test::Unit::TestCase
   end
   
 =begin
+  ## this test works fine but very slow
   def test_auth
     user_pass = 'testuser:testpass'
     Chainsaw.launch(TEST_URL + 'cgi.rb?auth').
@@ -240,7 +241,7 @@ class TestBrowser < Test::Unit::TestCase
   end
   
   def test_ignore_redirect
-    
+    # TODO
   end
   
   def test_result
@@ -256,6 +257,15 @@ class TestBrowser < Test::Unit::TestCase
     
   end
   
+  def test_bad_response
+    assert_nothing_raised do 
+      Chainsaw.launch(TEST_URL + 'cgi.rb?500').open { |cs|
+        assert_equal 500, cs.res.status
+        assert_equal 'Status 500', cs.res.content
+      }
+    end
+  end
+  
   def test_aliases
     Chainsaw.launch(TEST_URL + '03.html').> { |cs|
       assert_instance_of Nokogiri::HTML::Document, cs.doc
@@ -267,7 +277,22 @@ class TestBrowser < Test::Unit::TestCase
       assert_equal @text_val, x['params']['t'][0]
       assert_equal 'go', x['params']['s'][0]
     }
+    
+  end
   
+  def test_mixed_instance
+    cs = Chainsaw.launch(TEST_URL + '01.html').open {
+      assert_instance_of Nokogiri::HTML::Document, doc
+      assert_equal 200, res.status
+      links = doc.search('//a')
+      assert_equal links.length, 5
+      set_next links[1]
+      'result1'
+    }.open {
+      assert_equal res.uri.to_s, TEST_URL + '02.html'
+      'result2'
+    }
+    assert_equal ['result1', 'result2'], cs.results
   end
   
 end

@@ -22,6 +22,5 @@ class HTTPClient
   end
 end
 
-HTTP::Status::SUCCESSFUL_STATUS.push 404
 
 

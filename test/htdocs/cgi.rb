@@ -32,6 +32,16 @@ if cgi.has_key? 'auth'
   end
 end
 
+if cgi.keys.find {|k| k =~ /^(\d{3})$/}
+  status = $1
+  cgi.print [
+    "Status: #{status}", 
+    "\n", 
+    "Status #{status}"
+  ].join("\n")
+  exit 0
+end
+
 if env['CONTENT_TYPE'] =~ %r{^multipart/form-data;}
   upload = cgi.params['f'][0]
   res['upload'] = {

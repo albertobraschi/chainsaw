@@ -17,21 +17,23 @@ Nokogiri::XML::Element.module_eval do
 end
 
 module Chainsaw
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
   
   #
   # Return a instance of the Chainsaw::Browser class.
   def self.launch(*args)
-    args.pop! if args.last.is_a? Proc
     cs = Chainsaw::Browser.new *args
-    yield cs if block_given?
+    if block_given?
+      block = Proc.new
+      cs.instance_eval { process_chain &block }
+    end
     cs
   end
 end
 
 module Kernel
   #
-  # alias for Chainsaw.launch
+  # alias for Chainsaw#launch
   def Chainsaw(*args)
     Chainsaw.launch *args
   end
