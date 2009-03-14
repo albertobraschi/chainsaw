@@ -17,7 +17,7 @@ DESCRIPTION       = "A Ruby library for spidering web resources."
 RUBYFORGE_PROJECT = "chainsaw"
 HOMEPATH          = "http://github.com/ucnv/chainsaw/tree/master"
 BIN_FILES         = %w(  )
-VERS              = "0.0.1"
+VERS              = "0.0.2"
 
 REV = File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
 CLEAN.include ['**/.*.sw?', '*.gem', '.config']
@@ -60,7 +60,7 @@ spec = Gem::Specification.new do |s|
 
   s.add_dependency('nokogiri', '>=1.2.1')
   s.add_dependency('httpclient', '>=2.1.4')
-  s.required_ruby_version = '>= 1.8.6'
+  s.required_ruby_version = '>= 1.8.7'
 
   s.files = %w(README.rdoc ChangeLog Rakefile) +
     Dir.glob("{bin,doc,test,lib,templates,generator,extras,website,script}/**/*") + 
