@@ -144,12 +144,59 @@ class TestBrowser < Test::Unit::TestCase
       assert_equal index, count
       count += 1
       cs.open { |cs|
-        if count == 4
+        if index == 3
           x = YAML.load cs.res.content
           assert_equal TEST_URL + '01.html', x['env']['HTTP_REFERER']
         end
       }
     }
+  end
+  
+  def test_each_next
+    count = 0
+    Chainsaw.launch(TEST_URL + '01.html').open { |cs|
+      cs.set_next cs.doc.xpath('//a')
+    }.each_with_index { |cs, i|
+      assert_equal i, count
+      count += 1
+      cs.open { |cs|
+        break if i != 3
+        assert_equal i, 3
+        x = YAML.load cs.res.content
+        assert_equal TEST_URL + '01.html', x['env']['HTTP_REFERER']
+      }
+    }
+  end
+  
+  def test_each_next2
+    count = 0
+    Chainsaw.launch(TEST_URL + '01.html').open { |cs|
+      cs.set_next cs.doc.xpath('//a')
+    }.each_with_index { |cs, i|
+      assert_equal i, count
+      count += 1
+      next if i != 3
+      assert_equal i, 3
+      cs.open { |c|
+        x = YAML.load c.res.content
+        assert_equal TEST_URL + '01.html', x['env']['HTTP_REFERER']
+      }
+    }
+  end
+  
+  def test_each_break
+    count = 0
+    Chainsaw.launch(TEST_URL + '01.html').open { |cs|
+      cs.set_next cs.doc.xpath('//a')
+    }.each { |cs|
+      next if count == 0
+      break if count == 1
+      count += 1
+      cs.open {|cs|
+        flunk 'Must not pass here.'
+      }
+    }
+  
   end
   
   def test_referer

@@ -219,9 +219,10 @@ module Chainsaw
       end
       
       set.each_with_index do |e, index|
+        pos = @history.size
         set_next(e)
         with_index ? yield(self, index) : yield(self)
-        back
+        back if @history.size == pos + 1
       end
       self
     end
