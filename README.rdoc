@@ -32,8 +32,8 @@ A Ruby library for spidering web resources.
 
 == Installation
 
-* gem source -a http://gems.github.com
-* gem install ucnv-chainsaw
+  gem source -a http://gems.github.com
+  gem install ucnv-chainsaw
 
 == Copyright
 
