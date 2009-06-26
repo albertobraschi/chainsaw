@@ -1,4 +1,5 @@
-
+require 'ostruct'
+require 'tempfile'
 
 module Chainsaw
   
@@ -108,7 +109,6 @@ module Chainsaw
     end
     
     def back
-      require 'ostruct'
       cleanup
       @history.shift
       back = @history.first
