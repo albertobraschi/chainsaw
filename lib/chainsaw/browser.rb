@@ -79,10 +79,10 @@ module Chainsaw
     
     def submit_with(button_name, image_x = -1, image_y = -1)
       uri, form = prepare_next
-      raise TypeError, 'No form found.' unless form
+      raise TypeError, 'No form found.' if form.nil?
       unless button_name
         s = form.xpath('.//input[@type="submit"]')
-        button_name = s.first['name'] if s.length
+        button_name = s.first['name'] if s.length and !s.first.nil?
       end
       query = form.serialize_form(button_name, image_x, image_y)
       method = (form['method'] || 'get').downcase
