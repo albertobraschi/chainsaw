@@ -207,7 +207,7 @@ module Chainsaw
       end
       
       # history
-      set_history uri.to_s, r.contenttype, r.content
+      set_history r.uri.to_s, r.contenttype, r.content
       r
     end
     
