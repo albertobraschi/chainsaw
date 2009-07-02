@@ -17,7 +17,7 @@ Nokogiri::XML::Element.module_eval do
 end
 
 module Chainsaw
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
   
   #
   # Return a instance of the Chainsaw::Browser class.
