@@ -17,7 +17,7 @@ DESCRIPTION       = "A Ruby library for spidering web resources."
 RUBYFORGE_PROJECT = "chainsaw"
 HOMEPATH          = "http://github.com/ucnv/chainsaw/tree/master"
 BIN_FILES         = %w(  )
-VERS              = "0.0.2"
+VERS              = "0.0.3"
 
 REV = File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
 CLEAN.include ['**/.*.sw?', '*.gem', '.config']
